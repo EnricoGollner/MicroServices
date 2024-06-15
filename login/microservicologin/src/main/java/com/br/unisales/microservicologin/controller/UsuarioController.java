@@ -62,6 +62,18 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.FOUND).body(new UsuarioModel());
     }
 
+    //TODO - APAGAR ENDPOINT
+//    @PostMapping("/register")
+//    public ResponseEntity register(@RequestParam("id") Integer id, @RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
+//                                        @RequestParam("email") String email, @RequestParam("grupo") String grupo,  @RequestParam("senha") String senha,
+//                                        HttpServletRequest request) {
+//
+//        UsuarioModel usuario = this.servico.salvar(id, nome, sexo, email, senha, grupo);
+//        if ((usuario != null) && (usuario.getId() != null)) return ResponseEntity.status(HttpStatus.OK).body(usuario);
+//
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UsuarioModel());
+//    }
+
     /**
      * @apiNote Método responsável por buscar os usuários pelos parâmetros passados
      * @param String nome
@@ -129,18 +141,19 @@ public class UsuarioController {
      * @Data Criação 28.04.2024
      */
     @PostMapping("/salvarUsuario")
-    public ResponseEntity<UsuarioModel> salvarUsuario(@RequestParam("id") Integer id, @RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
+    public ResponseEntity salvarUsuario(@RequestParam("id") Integer id, @RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
                                                       @RequestParam("email") String email, @RequestParam("grupo") String grupo,  @RequestParam("senha") String senha,
                                                       HttpServletRequest request) {
-        if((request.getSession()!=null) && (request.getSession().getAttribute("usuario")!=null)) {
-            UsuarioModel usuarioSession = (UsuarioModel) request.getSession().getAttribute("usuario");
-            if((usuarioSession!=null) && ((usuarioSession.getGrupo().equals("Administrador")) || (usuarioSession.getId()==id))) {
-                UsuarioModel usuario = this.servico.salvar(id, nome, sexo, email, senha, grupo);
-                if((usuario!=null) && (usuario.getId()!=null))
-                    return ResponseEntity.status(HttpStatus.OK).body(usuario);
+
+            if((request.getSession()!=null) && (request.getSession().getAttribute("usuario")!=null)) {
+                UsuarioModel usuarioSession = (UsuarioModel) request.getSession().getAttribute("usuario");
+                if((usuarioSession!=null) && ((usuarioSession.getGrupo().equals("Administrador")) || (usuarioSession.getId()==id))) {
+                    UsuarioModel usuario = this.servico.salvar(id, nome, sexo, email, senha, grupo);
+                    if((usuario!=null) && (usuario.getId()!=null))
+                        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+                }
+                return ResponseEntity.status(HttpStatus.FOUND).body(new UsuarioModel());
             }
-            return ResponseEntity.status(HttpStatus.FOUND).body(new UsuarioModel());
-        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
