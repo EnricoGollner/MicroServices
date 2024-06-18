@@ -21,8 +21,7 @@ function setPagina(titulo) {
 	    });
 
 	} else if(titulo=='Produto') {
-		//jQuery('#id_div_pagina').load('/pages/manager/produto/produto_listar.html', function(statusTxt, xhr){
-		jQuery('#id_div_pagina').load('/pages/manager/pagina_em_construcao.html', function(statusTxt, xhr){
+		jQuery('#id_div_pagina').load('/pages/manager/produto/produto_listar.html', function(statusTxt, xhr){
 	        if(statusTxt == 'error')
 	        	jQuery('#id_div_body').html('Error: ' + xhr.status + ': ' + xhr.statusText, tempoAlertaErro);
 	    });
