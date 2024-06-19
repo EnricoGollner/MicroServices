@@ -3,6 +3,7 @@ package com.br.unisales.microservicoproduto.controller;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,12 +54,17 @@ public class ProdutoController {
 
     @CrossOrigin
     @PostMapping("/deletarProduto")
-    public ResponseEntity<String> deletarProduto(@RequestParam("id") Integer id,
-                                                 @RequestParam("token") String token, HttpServletRequest request) {
-        if(this.compararToken(UUID.fromString(token)))
-            return ResponseEntity.status(HttpStatus.OK).body(this.servico.deletarProduto(id));
-        else
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    public ResponseEntity<String> excluirProduto(@RequestParam("id") Integer id, @RequestParam("token") String token, HttpServletRequest request) {
+        JSONObject json = new JSONObject();
+        try {
+            this.servico.excluirProduto(id);
+            json.put("id", id);
+            return ResponseEntity.status(HttpStatus.OK).body(json.toString());
+        } catch (Exception e) {
+            json.put("resposta", "erro");
+            json.put("mensagem", "Os dados do produto NÃO foram excluídos!");
+            return ResponseEntity.status(HttpStatus.OK).body(json.toString());
+        }
     }
 
     /**

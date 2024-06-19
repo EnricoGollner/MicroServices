@@ -4,7 +4,7 @@ function validarDados(json) {
         frase += 'O campo nome não pode estar com menos de 2 caracteres!<br>';
     if ((json.descricao == null) || (json.descricao.trim().length == 0))
         frase += 'O campo descrição não pode estar vazio!<br>';
-    if ((json.preco == null) || (json.preco.trim().length == 0))
+    if ((json.preco == null) || (json.preco.trim().length < 1))
         frase += 'O campo preço não pode estar vazio!';
     return frase;
 }
@@ -85,4 +85,9 @@ function decryptToken(encryptedToken, key) {
         decryptedToken += String.fromCharCode(decryptedCharCode);
     }
     return decryptedToken;
+}
+
+function formatarPreco(input) {
+    input.value = input.value.replace(/,/g, '');
+    input.value = input.value.replace(/[^\d.]/g, '');
 }

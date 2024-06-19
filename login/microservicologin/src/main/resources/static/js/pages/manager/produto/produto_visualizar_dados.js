@@ -30,7 +30,7 @@ function visualizarDados(lista) {
                 html += '<div class="row '+cor+'" id="id_row_'+indice+'">'
                     html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-left"><span class="align-middle titulo-coluna-medio text-uppercase">'+(lista[indice].nome ? lista[indice].nome : '')+'</span></div>';
                     html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].descricao ? lista[indice].descricao : '')+'</span></div>';
-                    html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].preco ? lista[indice].preco : '')+'</span></div>';
+                    html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left"><span class="align-middle titulo-coluna-medio">R$ '+(lista[indice].preco ? lista[indice].preco.toFixed(2) : '')+'</span></div>';
                     html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
                         html += '<button type="button" class="btn objeto-ativo-inativo btn-editar p-0" id="editar-'+indice+'">';
                         html += '<i class="fa fa-pencil-square btn-icone-edit"></i>';
@@ -73,14 +73,17 @@ function visualizarDados(lista) {
         indice = indice.substring(8, indice.length);
         let resultado = confirm("Deseja excluir o produto : " + lista[indice].nome + " ?");
         if(resultado) {
-            deletarProduto(lista, indice);
+            excluirProduto(lista, indice);
         }
     });
 }
 
-async function deletarProduto(lista, indice) {
+async function excluirProduto(lista, indice) {
     let token = decryptToken(window.sessionStorage.getItem('usuarioToken'), 'unisales123')
-    let json = {'token': token, 'id': lista[indice].id, 'nome': lista[indice].nome};
+
+    let produto = lista[indice]
+    console.log(produto)
+    let json = {'token': token, 'id': produto.id, 'nome': produto.nome};
     await excluir(json, lista, indice, '/deletarProduto', 'do PRODUTO', 8095);
 }
 

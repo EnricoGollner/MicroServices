@@ -57,7 +57,7 @@ function visualizarDados(lista) {
     jQuery('.btn-editar').click(function() {
 		let objeto = jQuery(this);
 		let indice = objeto.attr('id');
-        indice = indice.substring(7, indice.lengtht);
+        indice = indice.substring(7, indice.length);
         window.sessionStorage.setItem('idCliente', lista[indice].id);
 		jQuery('#id_div_pagina').html('');
 		jQuery('#id_div_pagina').load('/pages/manager/cliente/cliente_form.html', function(statusTxt, xhr) {

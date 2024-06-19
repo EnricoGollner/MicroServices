@@ -74,12 +74,12 @@ public class ProdutoService {
         }
     }
 
-    public String deletarProduto(Integer id) {
+    public String excluirProduto(Integer id) {
         Optional<Produto> produto = this.repo.findById(id);
         if(produto.isPresent()) {
             this.repo.delete(produto.get());
             try {
-                return new ObjectMapper().writeValueAsString("Produto deletado com sucesso");
+                return new ObjectMapper().writeValueAsString(produto);
             } catch (Exception e) {
                 System.err.println("Erro no método excluirProduto(id) da classe ProdutoService: "+e.getMessage());
                 e.printStackTrace();
