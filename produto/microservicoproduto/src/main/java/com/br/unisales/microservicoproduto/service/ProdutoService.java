@@ -73,4 +73,21 @@ public class ProdutoService {
             return json.toString();
         }
     }
+
+    public String deletarProduto(Integer id) {
+        Optional<Produto> produto = this.repo.findById(id);
+        if(produto.isPresent()) {
+            this.repo.delete(produto.get());
+            try {
+                return new ObjectMapper().writeValueAsString("Produto deletado com sucesso");
+            } catch (Exception e) {
+                System.err.println("Erro no método excluirProduto(id) da classe ProdutoService: "+e.getMessage());
+                e.printStackTrace();
+                JSONObject json = new JSONObject();
+                json.put("erro", "Não foi possível encontrar o produto");
+                return json.toString();
+            }
+        }
+        return null;
+    }
 }

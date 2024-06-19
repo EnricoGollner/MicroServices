@@ -8,7 +8,7 @@
 function visualizarDados(lista) {
 	let indice=0, html='';
     if(window.sessionStorage.getItem('usuarioGrupo')=='Cliente')
-        jQuery('#id_div_pesquisa').css('display', 'nome');
+        jQuery('#id_div_pesquisa').css('display', 'none');
     else
         jQuery('#id_div_pesquisa').css('display', 'block');
     jQuery('#id_div_conteudo').html('');

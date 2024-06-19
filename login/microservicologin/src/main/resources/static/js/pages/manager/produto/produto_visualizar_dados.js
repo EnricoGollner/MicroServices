@@ -5,6 +5,7 @@
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 12.04.2024
  */
+
 function visualizarDados(lista) {
 	let indice=0, html='';
     if(window.sessionStorage.getItem('usuarioGrupo')=='Cliente')
@@ -13,10 +14,9 @@ function visualizarDados(lista) {
         jQuery('#id_div_pesquisa').css('display', 'block');
     jQuery('#id_div_conteudo').html('');
     html += '<div class="row bg-info py-2 rounded-top-3 mt-1">';
-        html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left text-uppercase fw-bold titulo-coluna-medio">Nome</div>';
-        html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-left text-uppercase fw-bold titulo-coluna-medio">Sexo</div>';
-        html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left text-uppercase fw-bold titulo-coluna-medio">E-mail</div>';
-        html += '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-left text-uppercase fw-bold titulo-coluna-medio">Grupo</div>';
+        html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-left text-uppercase fw-bold titulo-coluna-medio">Nome</div>';
+        html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-4 text-left text-uppercase fw-bold titulo-coluna-medio">Descrição</div>';
+        html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left text-uppercase fw-bold titulo-coluna-medio">Preço</div>';
         html += '<div class="col-12 col-sm-12x col-md-1 col-lg-1 col-xl-1 text-center text-uppercase fw-bold titulo-coluna-medio">Editar</div>';
         html += '<div class="col-12 col-sm-12x col-md-1 col-lg-1 col-xl-1 text-center text-uppercase fw-bold titulo-coluna-medio">Excluir</div>';
     html += '</div>';
@@ -28,10 +28,9 @@ function visualizarDados(lista) {
                 else
                     cor='row-background-impar';
                 html += '<div class="row '+cor+'" id="id_row_'+indice+'">'
-                    html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left"><span class="align-middle titulo-coluna-medio text-uppercase">'+(lista[indice].nome ? lista[indice].nome : '')+'</span></div>';
-                    html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].sexo ? lista[indice].sexo : '')+'</span></div>';
-                    html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].email ? lista[indice].email : '')+'</span></div>';
-                    html += '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].grupo ? lista[indice].grupo : '')+'</span></div>';
+                    html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-left"><span class="align-middle titulo-coluna-medio text-uppercase">'+(lista[indice].nome ? lista[indice].nome : '')+'</span></div>';
+                    html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].descricao ? lista[indice].descricao : '')+'</span></div>';
+                    html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].preco ? lista[indice].preco : '')+'</span></div>';
                     html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
                         html += '<button type="button" class="btn objeto-ativo-inativo btn-editar p-0" id="editar-'+indice+'">';
                         html += '<i class="fa fa-pencil-square btn-icone-edit"></i>';
@@ -60,7 +59,7 @@ function visualizarDados(lista) {
     jQuery('.btn-editar').click(function() {
 		let objeto = jQuery(this);
 		let indice = objeto.attr('id');
-        indice = indice.substring(7, indice.lengtht);
+        indice = indice.substring(7, indice.length);
         window.sessionStorage.setItem('idProduto', lista[indice].id);
 		jQuery('#id_div_pagina').html('');
 		jQuery('#id_div_pagina').load('/pages/manager/produto/produto_form.html', function(statusTxt, xhr) {
@@ -71,15 +70,27 @@ function visualizarDados(lista) {
     jQuery('.btn-excluir').click(function() {
 		let objeto = jQuery(this);
 		let indice = objeto.attr('id');
-        indice = indice.substring(8, indice.lengtht);
+        indice = indice.substring(8, indice.length);
         let resultado = confirm("Deseja excluir o produto : " + lista[indice].nome + " ?");
         if(resultado) {
-            excluirProduto(lista, indice);
+            deletarProduto(lista, indice);
         }
     });
 }
 
-async function excluirProduto(lista, indice) {
-    let json = {'id':lista[indice].id, 'nome': lista[indice].nome};
-    await excluir(json, lista, indice, 'excluirpRODUTO', 'do PRODUTO');
+async function deletarProduto(lista, indice) {
+    let token = decryptToken(window.sessionStorage.getItem('usuarioToken'), 'unisales123')
+    let json = {'token': token, 'id': lista[indice].id, 'nome': lista[indice].nome};
+    await excluir(json, lista, indice, '/deletarProduto', 'do PRODUTO', 8095);
+}
+
+function decryptToken(encryptedToken, key) {
+    var decryptedToken = "";
+    for (var i = 0; i < encryptedToken.length; i++) {
+        var charCode = encryptedToken.charCodeAt(i);
+        var keyChar = key.charCodeAt(i % key.length);
+        var decryptedCharCode = charCode - keyChar;
+        decryptedToken += String.fromCharCode(decryptedCharCode);
+    }
+    return decryptedToken;
 }

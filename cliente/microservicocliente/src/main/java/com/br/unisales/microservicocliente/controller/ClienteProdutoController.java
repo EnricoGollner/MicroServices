@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,6 +21,7 @@ public class ClienteProdutoController {
     @Autowired
     private CompararUUID comparar;
 
+    @CrossOrigin
     @PostMapping("/listarClienteProduto")
     public ResponseEntity<String> listarClienteProduto(@RequestParam("id") Integer id, @RequestParam("token") String token) {
         if(this.comparar.compararToken(UUID.fromString(token)))
@@ -28,6 +30,7 @@ public class ClienteProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    @CrossOrigin
     @PostMapping("/ativarInativarClienteProduto")
     public ResponseEntity<String> ativarInativarClienteProduto(@RequestParam("idCliente") Integer idCliente,
                                                                @RequestParam("idProduto") Integer idProduto,
@@ -40,6 +43,7 @@ public class ClienteProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);                                                                
     }
 
+    @CrossOrigin
     @PostMapping("/alterarDescontoClienteProduto")
     public ResponseEntity<String> alterarDescontoClienteProduto(@RequestParam("idCliente") Integer idCliente,
                                                                @RequestParam("idProduto") Integer idProduto,

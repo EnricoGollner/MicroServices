@@ -4,24 +4,28 @@
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 25.04.2024
  */
+
+
+
 async function login() {
 	if (jQuery('#id_email').val().trim() == '' || jQuery('#id_senha').val().trim() == '') {
 		alert('É necessário preencher os campos de E-MAIL e SENHA antes de continuar.');
 	} else {
-		let json = { 'email': jQuery('#id_email').val(), 'senha': jQuery('#id_senha').val() };
+		let json = {'email': jQuery('#id_email').val(), 'senha': jQuery('#id_senha').val()};
 		await $.ajax({
 			type: 'POST',
 			url: '/login',
 			data: json,
 			dataType: 'json',
-			success: function(result) {
+			success: function (result) {
+				window.sessionStorage.setItem('usuarioToken', encryptToken(result.token, 'unisales123'))
 				window.sessionStorage.setItem('usuarioId', result.id);
 				window.sessionStorage.setItem('usuarioNome', result.nome);
 				window.sessionStorage.setItem('usuarioSexo', result.sexo);
 				window.sessionStorage.setItem('usuarioGrupo', result.grupo);
-                window.location.href = '/manager';
+				window.location.href = '/manager';
 			},
-			error: function() {
+			error: function () {
 				alert('ERRO DE AUTENTICAÇÃO: Usuário e/ou senha incorreta!');
 			}
 		});
@@ -40,3 +44,14 @@ jQuery(function() {
 		$("#overlay").fadeIn(300);
 	});
 });
+
+function encryptToken(token, key) {
+	var encryptedToken = "";
+	for (var i = 0; i < token.length; i++) {
+		var charCode = token.charCodeAt(i);
+		var keyChar = key.charCodeAt(i % key.length);
+		var encryptedCharCode = charCode + keyChar;
+		encryptedToken += String.fromCharCode(encryptedCharCode);
+	}
+	return encryptedToken;
+}

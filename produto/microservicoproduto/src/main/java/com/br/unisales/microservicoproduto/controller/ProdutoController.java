@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +20,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService servico;
 
+    @CrossOrigin
     @PostMapping("/listarProduto")
     public ResponseEntity<String> listarProduto(@RequestParam("nome") String nome, @RequestParam("token") String token,
                                                 HttpServletRequest request) {
@@ -28,6 +30,7 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    @CrossOrigin
     @PostMapping("/buscarProdutoPorId")
     public ResponseEntity<String> buscarProdutoPorId(@RequestParam("id") Integer id, @RequestParam("token") String token,
                                                 HttpServletRequest request) {
@@ -37,12 +40,23 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    @CrossOrigin
     @PostMapping("/salvarProduto")
     public ResponseEntity<String> salvarProduto(@RequestParam("id") Integer id, @RequestParam("nome") String nome,
                                                 @RequestParam("descricao") String descricao, @RequestParam("preco") Double preco,
                                                 @RequestParam("token") String token, HttpServletRequest request) {
         if(this.compararToken(UUID.fromString(token)))
             return ResponseEntity.status(HttpStatus.OK).body(this.servico.salvar(id, nome, descricao, preco));
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    @CrossOrigin
+    @PostMapping("/deletarProduto")
+    public ResponseEntity<String> deletarProduto(@RequestParam("id") Integer id,
+                                                 @RequestParam("token") String token, HttpServletRequest request) {
+        if(this.compararToken(UUID.fromString(token)))
+            return ResponseEntity.status(HttpStatus.OK).body(this.servico.deletarProduto(id));
         else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }

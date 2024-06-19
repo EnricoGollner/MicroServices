@@ -7,10 +7,16 @@
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 12.04.2024
  */
-async function alterarDadosDaTabela(url, json) {
+async function alterarDadosDaTabela(endpoint, json, porta) {
+	var finalUrl = endpoint;
+
+	if (porta != undefined) {
+		finalUrl = `http://localhost:${porta}${endpoint}`
+	}
+
 	let resposta = await $.ajax({
 							type : 'POST',
-							url : url,
+							url : finalUrl,
 							data : json,
 							dataType : 'json',
 						}).done(function() {
@@ -37,27 +43,34 @@ async function alterarDadosDaTabela(url, json) {
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 12.04.2024
  */
-async function listarDadosDaTabela(url, json) {
+async function listarDadosDaTabela(endpoint, json, porta) {
+	let finalUrl = endpoint;
+
+	if (porta == 8095) {
+		finalUrl = `http://localhost:${porta}${endpoint}`
+	}
+
 	return await $.ajax({
-						type : 'POST',
-						url : url,
-						data : json,
-						dataType : 'json',
-						success : function(result) {
-							return result;
-						},
-						error : function(jqXHR) {
-							setTimeout(function(){
-        						$("#overlay").fadeOut(300);
-      						},500);
-							return jqXHR;
-						}
-					}).done(function() {
-      					setTimeout(function(){
-        					$("#overlay").fadeOut(300);
-      					},500);
-      				});
+		type: 'POST',
+		url: finalUrl,
+		data: json,
+		dataType: 'json',
+		success: function(result) {
+			return result;
+		},
+		error: function(jqXHR) {
+			setTimeout(function(){
+				$("#overlay").fadeOut(300);
+			}, 500);
+			return jqXHR;
+		}
+	}).done(function() {
+		setTimeout(function(){
+			$("#overlay").fadeOut(300);
+		}, 500);
+	});
 }
+
 
 /**
  * @apiNote Função responsável por deslogar o usuário e sair do sistema.
@@ -86,9 +99,9 @@ function sair() {
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 29.04.2024
  */
-async function excluir(json, lista, indice, url, entidade) {
+async function excluir(json, lista, indice, url, entidade, porta) {
 	let tamanho = lista.length;
-	let resultado = await alterarDadosDaTabela(url, json); //Função presente no arquivo alterar_objeto.js em static/js/pages/util/
+	let resultado = await alterarDadosDaTabela(url, json, porta); //Função presente no arquivo alterar_objeto.js em static/js/pages/util/
 	if(resultado.sinal) {
 		removeDiv(lista, indice);
 		if(tamanho==1)

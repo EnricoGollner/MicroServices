@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,6 +34,7 @@ public class ClienteController {
      * @author Vito Rodrigues Franzosi
      * @Data Criação 26.04.2024
      */
+    @CrossOrigin
     @PostMapping("/listarCliente")
     public ResponseEntity<String> listarCliente(@RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
                                                 @RequestParam("cpf") String cpf, @RequestParam("token") String token) {
@@ -53,6 +55,7 @@ public class ClienteController {
      * @author Vito Rodrigues Franzosi
      * @Data Criação 26.04.2024
      */
+    @CrossOrigin
     @PostMapping("/buscarClientePorIdUsuario")
     public ResponseEntity<String> buscarClientePorIdUsuario(@RequestParam("id") Integer id, @RequestParam("token") String token) {
         if(this.comparar.compararToken(UUID.fromString(token)))
@@ -70,6 +73,7 @@ public class ClienteController {
      * @author Vito Rodrigues Franzosi
      * @Data Criação 26.04.2024
      */
+    @CrossOrigin
     @PostMapping("/buscarClientePorId")
     public ResponseEntity<String> buscarClientePorId(@RequestParam("id") Integer id, @RequestParam("token") String token) {
         if(this.comparar.compararToken(UUID.fromString(token)))
@@ -91,6 +95,7 @@ public class ClienteController {
      * @author Vito Rodrigues Franzosi
      * @Data Criação 01.05.2024
      */
+    @CrossOrigin
     @PostMapping("salvarCliente")
     public ResponseEntity<String> salvarCliente(@RequestParam("id") Integer id, @RequestParam("nome") String nome,
                                                 @RequestParam("sexo") String sexo, @RequestParam("cpf") String cpf,
@@ -109,6 +114,7 @@ public class ClienteController {
      * @author Vito Rodrigues Franzosi
      * @Data Criação 03.05.2024
      */
+    @CrossOrigin
     @PostMapping("/excluirCliente")
     public ResponseEntity<String> excluirCliente(@RequestParam("id") Integer id, @RequestParam("token") String token) {
         if(this.comparar.compararToken(UUID.fromString(token))) 
