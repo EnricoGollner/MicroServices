@@ -11,16 +11,16 @@ function visualizarDados(lista) {
         jQuery('#id_div_pesquisa').css('display', 'none');
     else
         jQuery('#id_div_pesquisa').css('display', 'block');
-    jQuery('#id_div_conteudo').html('');
-    html += '<div class="row bg-info py-2 rounded-top-3 mt-1">';
+        jQuery('#id_div_conteudo').html('');
+        html += '<div class="row bg-info py-2 rounded-top-3 mt-1">';
         html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left text-uppercase fw-bold titulo-coluna-medio">Nome</div>';
         html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-left text-uppercase fw-bold titulo-coluna-medio">Sexo</div>';
         html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left text-uppercase fw-bold titulo-coluna-medio">E-mail</div>';
         html += '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 text-left text-uppercase fw-bold titulo-coluna-medio">Grupo</div>';
         html += '<div class="col-12 col-sm-12x col-md-1 col-lg-1 col-xl-1 text-center text-uppercase fw-bold titulo-coluna-medio">Editar</div>';
         html += '<div class="col-12 col-sm-12x col-md-1 col-lg-1 col-xl-1 text-center text-uppercase fw-bold titulo-coluna-medio">Excluir</div>';
-    html += '</div>';
-    html += '<div class="row">';
+        html += '</div>';
+        html += '<div class="row">';
         html += '<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">';
             while(indice<lista.length) {
                 if(indice%2==0)
@@ -71,7 +71,7 @@ function visualizarDados(lista) {
     jQuery('.btn-excluir').click(function() {
 		let objeto = jQuery(this);
 		let indice = objeto.attr('id');
-        indice = indice.substring(8, indice.lengtht);
+        indice = indice.substring(8, indice.length);
         let resultado = confirm("Deseja excluir o usuário : " + lista[indice].nome + " ?");
         if(resultado) {
             excluirUsuario(lista, indice);
@@ -81,5 +81,5 @@ function visualizarDados(lista) {
 
 async function excluirUsuario(lista, indice) {
     let json = {'id':lista[indice].id, 'nome': lista[indice].nome};
-    await excluir(json, lista, indice, 'excluirUsuario', 'do USUÁRIO'); //Função presente no arquivo /js/pages/util/crud_table.js 
+    await excluir(json, lista, indice, '/excluirUsuario', 'do USUÁRIO'); //Função presente no arquivo /js/pages/util/crud_table.js
 }

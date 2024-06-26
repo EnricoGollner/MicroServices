@@ -24,6 +24,7 @@ async function alterarDadosDaTabela(endpoint, json, porta) {
 	        					$("#overlay").fadeOut(300);
 	      					},500);
       					});
+
 	if(resposta.id)
 		return {'resposta':'sucesso', 'mensagem':'', 'sinal':true, 'id':resposta.id};
 	else {
@@ -99,9 +100,10 @@ function sair() {
  * @author Vito Rodrigues Franzosi
  * @Data Criação: 29.04.2024
  */
-async function excluir(json, lista, indice, url, entidade, porta) {
+async function excluir(json, lista, indice, endpoint, entidade, porta) {
 	let tamanho = lista.length;
-	let resultado = await alterarDadosDaTabela(url, json, porta); //Função presente no arquivo alterar_objeto.js em static/js/pages/util/
+
+	let resultado = await alterarDadosDaTabela(endpoint, json, porta); //Função presente no arquivo alterar_objeto.js em static/js/pages/util/
 	if(resultado.sinal) {
 		removeDiv(lista, indice);
 		if(tamanho==1)

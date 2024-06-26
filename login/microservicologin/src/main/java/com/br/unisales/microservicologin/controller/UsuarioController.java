@@ -55,14 +55,13 @@ public class UsuarioController {
         if((modelo!=null) && (modelo.getId()!=null)) {
             modelo.setToken(this.criarToken().toString());
             request.getSession().setAttribute("usuario", modelo);
+
             return ResponseEntity.status(HttpStatus.OK).body(modelo);
         }
-        /*JSONObject json = new JSONObject();
-		json.put("menssagem", "Usuário não encontrado no sistema!");*/
+
         return ResponseEntity.status(HttpStatus.FOUND).body(new UsuarioModel());
     }
 
-    //TODO - APAGAR ENDPOINT
 //    @PostMapping("/register")
 //    public ResponseEntity register(@RequestParam("id") Integer id, @RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
 //                                        @RequestParam("email") String email, @RequestParam("grupo") String grupo,  @RequestParam("senha") String senha,
@@ -82,12 +81,12 @@ public class UsuarioController {
      * @param HttpServletRequest request
      * @return ResponseEntity<List<UsuarioModel>>
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 27.04.2024
      */
     @PostMapping("/listarUsuario")
-    public ResponseEntity<List<UsuarioModel>> listarUsuario(@RequestParam("nome") String nome, @RequestParam("sexo") String sexo, @RequestParam("email") String email,
-                                                            @RequestParam("grupo") String grupo, HttpServletRequest request) {
+    public ResponseEntity<List<UsuarioModel>> listarUsuario(
+            @RequestParam("nome") String nome, @RequestParam("sexo") String sexo, @RequestParam("email") String email, @RequestParam("grupo") String grupo,
+            HttpServletRequest request) {
         if((request.getSession()!=null) && (request.getSession().getAttribute("usuario")!=null)) {
             UsuarioModel usuarioSession = (UsuarioModel) request.getSession().getAttribute("usuario");
             List<UsuarioModel> lista = new ArrayList<UsuarioModel>();
@@ -137,14 +136,12 @@ public class UsuarioController {
      * @param HttpServletRequest request
      * @return ResponseEntity<UsuarioModel>
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 28.04.2024
      */
     @PostMapping("/salvarUsuario")
     public ResponseEntity salvarUsuario(@RequestParam("id") Integer id, @RequestParam("nome") String nome, @RequestParam("sexo") String sexo,
                                                       @RequestParam("email") String email, @RequestParam("grupo") String grupo,  @RequestParam("senha") String senha,
                                                       HttpServletRequest request) {
-
             if((request.getSession()!=null) && (request.getSession().getAttribute("usuario")!=null)) {
                 UsuarioModel usuarioSession = (UsuarioModel) request.getSession().getAttribute("usuario");
                 if((usuarioSession!=null) && ((usuarioSession.getGrupo().equals("Administrador")) || (usuarioSession.getId()==id))) {
@@ -163,12 +160,14 @@ public class UsuarioController {
      * @param HttpServletRequest request
      * @return ResponseEntity<String>
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 28.04.2024
      */
     @PostMapping("/excluirUsuario")
     public ResponseEntity<String> excluirUsuario(@RequestParam("id") Integer id, @RequestParam("nome") String nome, HttpServletRequest request) {
         JSONObject json = new JSONObject();
+
+        System.out.println(request.getSession().getAttribute("usuario"));
+
         if((request.getSession()!=null) && (request.getSession().getAttribute("usuario")!=null)) {
             UsuarioModel usuarioSession = (UsuarioModel) request.getSession().getAttribute("usuario");
             if((usuarioSession!=null) && (usuarioSession.getGrupo().equals("Administrador")) && (usuarioSession.getId()!=id)) {
@@ -208,7 +207,6 @@ public class UsuarioController {
      * @param HttpServletRequest request
      * @return String
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 27.04.2024
      */
     @GetMapping("/sair")
@@ -222,7 +220,6 @@ public class UsuarioController {
      * @apiNote Método responsável por criar o token
      * @return UUID
      *
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 30.04.2024
      */
     private UUID criarToken() {
@@ -257,7 +254,6 @@ public class UsuarioController {
      * @param String token
      * @return ResponseEntity<String>
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 03.05.2024
      */
     private ResponseEntity<String> excluirCliente(Integer id, String token) {

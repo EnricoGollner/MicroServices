@@ -36,7 +36,6 @@ public class ClienteController {
      * @param HttpServletRequest request
      * @return ResponseEntity<String>
      * 
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 30.01.2024
      */
     @PostMapping("/listarCliente")
@@ -68,8 +67,7 @@ public class ClienteController {
      * @param Integer id
      * @param HttpServletRequest request
      * @return ResponseEntity<String>
-     * 
-     * @author Vito Rodrigues Franzosi
+     *
      * @Data Criação 01.05.2024
      */
     @PostMapping("/buscarClientePorId")
