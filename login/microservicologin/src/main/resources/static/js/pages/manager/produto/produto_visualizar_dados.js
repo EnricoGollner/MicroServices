@@ -27,31 +27,41 @@ function visualizarDados(lista) {
                     cor='row-background-par';
                 else
                     cor='row-background-impar';
-                html += '<div class="row '+cor+'" id="id_row_'+indice+'">'
+                    html += '<div class="row '+cor+'" id="id_row_'+indice+'">'
                     html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-left"><span class="align-middle titulo-coluna-medio text-uppercase">'+(lista[indice].nome ? lista[indice].nome : '')+'</span></div>';
                     html += '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left"><span class="align-middle titulo-coluna-medio">'+(lista[indice].descricao ? lista[indice].descricao : '')+'</span></div>';
                     html += '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 text-left"><span class="align-middle titulo-coluna-medio">R$ '+(lista[indice].preco ? lista[indice].preco.toFixed(2) : '')+'</span></div>';
-                    html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
-                        html += '<button type="button" class="btn objeto-ativo-inativo btn-editar p-0" id="editar-'+indice+'">';
-                        html += '<i class="fa fa-pencil-square btn-icone-edit"></i>';
-                        html += '</button>';
-                    html += '</div>';
-                    if((window.sessionStorage.getItem('usuarioGrupo')=='Cliente') || (lista[indice].id==window.sessionStorage.getItem('usuarioId'))) {
+
+
+
+                    if(window.sessionStorage.getItem('usuarioGrupo')=='Cliente') {
                         html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
-                            html += '<button type="button" class="btn objeto-ativo-inativo p-0">';
-                            html += '<i class="fa fa-trash true btn-icone-disabled"></i>';
-                            html += '</button>';
+                        html += '<button type="button" class="btn objeto-ativo-inativo" id="editar-'+indice+'">';
+                        html += '<i class="fa fa-pencil-square btn-icone-disabled"></i>';
+                        html += '</button>';
+                        html += '</div>';
+
+                        html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
+                        html += '<button type="button" class="btn objeto-ativo-inativo">';
+                        html += '<i class="fa fa-trash true btn-icone-disabled"></i>';
+                        html += '</button>';
                         html += '</div>';
                     } else {
                         html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
-                            html += '<button type="button" class="btn objeto-ativo-inativo btn-excluir p-0" id="excluir-'+indice+'">';
-                            html += '<i class="fa fa-trash true btn-icone-del"></i>';
-                            html += '</button>';
+                        html += '<button type="button" class="btn objeto-ativo-inativo btn-editar p-0" id="editar-'+indice+'">';
+                        html += '<i class="fa fa-pencil-square true btn-icone-edit"></i>';
+                        html += '</button>';
+                        html += '</div>';
+
+                        html += '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center">';
+                        html += '<button type="button" class="btn objeto-ativo-inativo btn-excluir p-0" id="excluir-'+indice+'">';
+                        html += '<i class="fa fa-trash true btn-icone-del"></i>';
+                        html += '</button>';
                         html += '</div>';
                     }
-                html += '</div>';
-                indice++;
-            }
+                    html += '</div>';
+                    indice++;
+                }
         html += '</div>';
     html += '</div>';
     jQuery('#id_div_conteudo').html(html);

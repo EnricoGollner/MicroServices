@@ -35,8 +35,6 @@ async function login() {
 /**
  * @apiNote Função responsável por inicialiar esta arquivo
  * @returns
- * 
- * @author Vito Rodrigues Franzosi
  * @Data Criação: 25.04.2024
  */
 jQuery(function() {

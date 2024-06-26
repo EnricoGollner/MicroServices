@@ -72,7 +72,6 @@ public class ProdutoController {
      * @param UUID token
      * @return boolean
      *
-     * @author Vito Rodrigues Franzosi
      * @Data Criação 06.05.2024
      */
     private boolean compararToken(UUID token) {
